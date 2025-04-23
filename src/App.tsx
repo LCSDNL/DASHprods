@@ -25,8 +25,23 @@ export default function App() {
   const [searchInput, setSearchInput] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
 
-  
+  const [showScrollTop, setShowScrollTop] = useState(false)
 
+  const [sortBy, setSortBy] = useState('')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+
+  
+  useEffect(() => {
+    const onScroll = () => {
+      setShowScrollTop(window.scrollY > 300)
+    }
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
   useEffect(() => {
     async function fetchProdutos() {
       try {
@@ -88,9 +103,36 @@ export default function App() {
       return true
     })
 
-    setFilteredProdutos(result)
+    
+
+    let sorted = [...result]
+if (sortBy) {
+  sorted.sort((a, b) => {
+    const aVal = sortBy === 'price'
+      ? a.price
+      : sortBy === 'stock'
+      ? a.available_quantity
+      : sortBy === 'sold'
+      ? a.sold_quantity
+      : 0
+
+    const bVal = sortBy === 'price'
+      ? b.price
+      : sortBy === 'stock'
+      ? b.available_quantity
+      : sortBy === 'sold'
+      ? b.sold_quantity
+      : 0
+
+    return sortOrder === 'asc' ? aVal - bVal : bVal - aVal
+  })
+}
+
+setFilteredProdutos(sorted)
+
     setCurrentPage(0)
-  }, [filters, allProdutos, searchTerm])
+  }, [filters, allProdutos, searchTerm, sortBy, sortOrder])
+  
 
   useEffect(() => {
     if (!infiniteScroll) return
@@ -130,6 +172,34 @@ export default function App() {
   }}
   className="w-full mb-6 p-3 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-red-500"
 />
+      
+<div className="flex gap-4 items-center mb-6">
+  <label className="text-sm font-medium">Ordenar por:</label>
+  <select
+    className="bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+    value={sortBy}
+    onChange={(e) => setSortBy(e.target.value)}
+  >
+    <option value="">Nenhum</option>
+    <option value="price">Preço</option>
+    <option value="stock">Estoque</option>
+    <option value="sold">Vendas</option>
+  </select>
+
+  <select
+    className="bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+    value={sortOrder}
+    onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+  >
+    <option value="asc">Crescente</option>
+    <option value="desc">Decrescente</option>
+  </select>
+</div>
+
+
+
+
+
 
         <ProductList produtos={visibleProdutos} />
         {!infiniteScroll && filteredProdutos.length > visibleProdutos.length && (
@@ -140,6 +210,17 @@ export default function App() {
             Carregar Mais
           </button>
         )}
+
+{showScrollTop && (
+  <button
+    onClick={scrollToTop}
+    className="fixed bottom-6 right-6 bg-red-500 text-white px-4 py-2 rounded-full shadow hover:bg-red-600 transition"
+    aria-label="Voltar ao topo"
+  >
+    <h1>↑</h1>
+  </button>
+)}
+
       </main>
     </div>
   )
