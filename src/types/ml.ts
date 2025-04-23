@@ -14,6 +14,7 @@ export interface Attribute {
   
   export interface Product {
     id: string;
+    seller_custom_field?:string;
     title: string;
     thumbnail: string;
     available_quantity: number;

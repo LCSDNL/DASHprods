@@ -19,6 +19,7 @@ export default function ProductItem({ produto }: ProductItemProps) {
   const {
     thumbnail,
     title,
+    seller_custom_field,
     available_quantity,
     sold_quantity,
     price,
@@ -49,6 +50,8 @@ export default function ProductItem({ produto }: ProductItemProps) {
           <h3 className="text-white font-semibold text-base mb-1">{title}</h3>
           <p className="text-red-500 font-bold text-sm mb-1">R$ {price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
           <p className="text-gray-400 text-xs mb-1">ID: {id}</p>
+          <p className="text-gray-400 text-xs mb-1">SKU: {seller_custom_field || 'N/A'}</p>
+
           <p className="text-white text-xs mb-1 font-bold">Marca: {brand}</p>
           <p className="text-gray-400 text-xs mb-6">Garantia: {warranty?.trim() || 'Não informada'}</p>
 
@@ -93,15 +96,21 @@ export default function ProductItem({ produto }: ProductItemProps) {
                 const priceVar = v.price
                 const stockVar = v.available_quantity
                 const attrs = v.attribute_combinations || []
+                const seller_custom_field = v.seller_custom_field || []
 
                 return (
                   <li key={idx} className="bg-gray-700 rounded p-4 flex flex-1 min-w-[45%]">
                     <img src={thumb} alt={`Var ${idx + 1}`} className="w-16 h-16 object-cover rounded mr-4" />
                     <div className="flex-1">
-                      <div className="flex gap-4 text-sm text-gray-200 mb-2">
-                        <p><strong>Preço:</strong> R$ {priceVar.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-                        <p><strong>Estoque:</strong> {stockVar}</p>
-                      </div>
+                    <div className="variation-main">
+                      <p><strong>Preço:</strong> R$ {priceVar.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                      <p><strong>Estoque:</strong> {stockVar}</p>
+                      <p>
+                        <strong>SKU:</strong>{' '}
+                        {v.user_product_id || 'N/A'}
+                      </p>
+
+                    </div>
                       {attrs.length > 0 && (
                         <ul className="flex flex-wrap gap-2 text-sm text-gray-300">
                           {attrs.map((attr: any) => (
