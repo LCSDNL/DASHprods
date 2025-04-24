@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import ProductList from './components/ProductList'
 import { Product } from './types/ml'
+import rsWelcome from './assets/RS-Welcome.png' // ajuste o caminho se necessário
+
 
 
 export default function App() {
@@ -155,71 +157,79 @@ setFilteredProdutos(sorted)
       </div>
     )
   }
+  
 
   return (
-    <div className="grid grid-cols-[280px_1fr] min-h-screen bg-gray-900 text-white">
+    <div className="grid grid-cols-[280px_1fr] min-h-screen bg-gray-900 text-white pt-20">
+
+
+      <header className="fixed top-0 left-0 w-full bg-gray-900 z-50 shadow-md p-2 flex items-center justify-center border-b border-red-600">
+        <img src={rsWelcome} alt="Bem-vindo RS" className="h-12 object-contain" />
+      </header>
+
       <Sidebar filters={filters} setFilters={setFilters} allProdutos={allProdutos} />
+
       <main className="p-6 bg-gray-900">
-      <input
-  type="text"
-  placeholder="Buscar por título, ID ou SKU..."
-  value={searchInput}
-  onChange={e => setSearchInput(e.target.value)}
-  onKeyDown={e => {
-    if (e.key === 'Enter') {
-      setSearchTerm(searchInput)
-    }
-  }}
-  className="w-full mb-6 p-3 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-red-500"
-/>
-      
-<div className="flex gap-4 items-center mb-6">
-  <label className="text-sm font-medium">Ordenar por:</label>
-  <select
-    className="bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-    value={sortBy}
-    onChange={(e) => setSortBy(e.target.value)}
-  >
-    <option value="">Nenhum</option>
-    <option value="price">Preço</option>
-    <option value="stock">Estoque</option>
-    <option value="sold">Vendas</option>
-  </select>
-
-  <select
-    className="bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
-    value={sortOrder}
-    onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-  >
-    <option value="asc">Crescente</option>
-    <option value="desc">Decrescente</option>
-  </select>
-</div>
-
-
-
-
-
-
-        <ProductList produtos={visibleProdutos} />
-        {!infiniteScroll && filteredProdutos.length > visibleProdutos.length && (
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded block mx-auto mt-12"
-            onClick={() => setInfiniteScroll(true)}
+        <input
+          type="text"
+          placeholder="Buscar por título, ID ou SKU..."
+          value={searchInput}
+          onChange={e => setSearchInput(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              setSearchTerm(searchInput)
+            }
+            }}
+          className="w-full mb-6 p-3 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring focus:ring-red-500"
+        />
+        
+        <div className="flex gap-4 items-center mb-6">
+          <label className="text-sm font-medium">Ordenar por:</label>
+          <select
+            className="bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
           >
-            Carregar Mais
+            <option value="">Nenhum</option>
+            <option value="price">Preço</option>
+            <option value="stock">Estoque</option>
+            <option value="sold">Vendas</option>
+          </select>
+
+          <select
+              className="bg-gray-800 text-white border border-gray-600 rounded px-2 py-1"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+          >
+            <option value="asc">Crescente</option>
+            <option value="desc">Decrescente</option>
+          </select>
+        </div>
+
+
+
+
+
+
+          <ProductList produtos={visibleProdutos} />
+          {!infiniteScroll && filteredProdutos.length > visibleProdutos.length && (
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded block mx-auto mt-12"
+              onClick={() => setInfiniteScroll(true)}
+            >
+              Carregar Mais
+            </button>
+          )}
+
+        {showScrollTop && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 bg-red-500 text-white px-4 py-2 rounded-full shadow hover:bg-red-600 transition"
+            aria-label="Voltar ao topo"
+          >
+            <h1>↑</h1>
           </button>
         )}
-
-{showScrollTop && (
-  <button
-    onClick={scrollToTop}
-    className="fixed bottom-6 right-6 bg-red-500 text-white px-4 py-2 rounded-full shadow hover:bg-red-600 transition"
-    aria-label="Voltar ao topo"
-  >
-    <h1>↑</h1>
-  </button>
-)}
 
       </main>
     </div>
