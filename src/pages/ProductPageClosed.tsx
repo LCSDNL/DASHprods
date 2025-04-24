@@ -102,10 +102,8 @@ export default function App() {
         const term = searchTerm.trim().toLowerCase()
         const inTitle = p.title.toLowerCase().includes(term)
         const inId = p.id.toLowerCase().includes(term)
-        const inSku = p.variations?.some((v: any) =>
-          String(v.id || '').toLowerCase().includes(term)
-        )
-        if (!(inTitle || inId || inSku)) return false
+        
+        if (!(inTitle || inId )) return false
       }
       
 
@@ -186,7 +184,7 @@ setFilteredProdutos(sorted)
       <main className="p-6 bg-gray-900">
         <input
           type="text"
-          placeholder="Buscar por título, ID ou SKU..."
+          placeholder="Buscar por título ou MLB"
           value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
           onKeyDown={e => {
