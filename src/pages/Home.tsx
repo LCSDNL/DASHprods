@@ -44,6 +44,12 @@ const Home = () => {
     if (entry.name === 'Ativos') {
       navigate('/produtos')
     }
+    if (entry.name === 'Pausados') {
+        navigate('/produtos-pausados')
+      }
+      if (entry.name === 'Finalizados') {
+        navigate('/produtos-finalizados')
+      }
   }
 
   const renderCustomLegend = () => (

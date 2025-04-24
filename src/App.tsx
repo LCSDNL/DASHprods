@@ -1,12 +1,17 @@
 import { Routes, Route } from 'react-router-dom'
-import ProductPage from './pages/ProductPage'
+import ProductPageActive from './pages/ProductPageActive'
+import ProductPagePaused from './pages/ProductPagePaused'
+import ProductPageClosed from './pages/ProductPageClosed'
+
 import Home from './pages/Home'
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/produtos" element={<ProductPage />} />
+      <Route path="/produtos" element={<ProductPageActive />} />
+      <Route path="/produtos-pausados" element={<ProductPagePaused />} />
+      <Route path="/produtos-finalizados" element={<ProductPageClosed />} />
     </Routes>
-  )
+)
 }
