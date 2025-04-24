@@ -12,6 +12,8 @@ const COLORS = ['#00C49F', '#FFBB28', '#FF4444']
 
 const Home = () => {
   const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -34,6 +36,9 @@ const Home = () => {
         setData(pieData)
       } catch (err) {
         console.error('Erro ao buscar dados do gráfico:', err)
+        setError(true)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -41,15 +46,9 @@ const Home = () => {
   }, [])
 
   const handleClick = (entry: any) => {
-    if (entry.name === 'Ativos') {
-      navigate('/produtos')
-    }
-    if (entry.name === 'Pausados') {
-        navigate('/produtos-pausados')
-      }
-      if (entry.name === 'Finalizados') {
-        navigate('/produtos-finalizados')
-      }
+    if (entry.name === 'Ativos') navigate('/produtos')
+    if (entry.name === 'Pausados') navigate('/produtos-pausados')
+    if (entry.name === 'Finalizados') navigate('/produtos-finalizados')
   }
 
   const renderCustomLegend = () => (
@@ -74,34 +73,50 @@ const Home = () => {
   )
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
-      <div className="w-full max-w-lg">
-        <h1 className="text-2xl text-center font-semibold mb-6">Status dos Produtos</h1>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={data}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              onClick={handleClick}
-            >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                  style={{ cursor: entry.name === 'Ativos' ? 'pointer' : 'default' }}
-                />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
+    <div className="min-h-screen bg-gray-900 text-white p-8">
+      <h1 className="text-2xl font-semibold mb-6">Dashboard de Produtos</h1>
 
-        {renderCustomLegend()}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {/* Card do gráfico de pizza */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+          <h2 className="text-lg font-medium mb-4">Status dos Produtos</h2>
 
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin h-8 w-8 border-4 border-t-transparent border-red-500 rounded-full"></div>
+            </div>
+          ) : error ? (
+            <p className="text-red-500 text-center">Erro ao carregar dados</p>
+          ) : (
+            <>
+              <ResponsiveContainer width="100%" height={240}>
+                <PieChart>
+                  <Pie
+                    data={data}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    onClick={handleClick}
+                  >
+                    {data.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              {renderCustomLegend()}
+            </>
+          )}
+        </div>
+
+        {/* Aqui você pode adicionar outros cards com mesmo padrão */}
       </div>
     </div>
   )
