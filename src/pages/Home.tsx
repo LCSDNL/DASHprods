@@ -8,6 +8,8 @@ import {
 } from 'recharts'
 import { useNavigate } from 'react-router-dom'
 
+import inventoicon from '../assets/inventoIcon.png'
+
 const COLORS = ['#00C49F', '#FFBB28', '#FF4444']
 
 const Home = () => {
@@ -79,7 +81,7 @@ const Home = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {/* Card do gráfico de pizza */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
-          <h2 className="text-lg font-medium mb-4">Status dos Produtos</h2>
+          <h2 className="text-lg font-medium mb-4">Status dos Produtos no Mercado Livre</h2>
 
           {loading ? (
             <div className="flex justify-center items-center h-64">
@@ -116,7 +118,33 @@ const Home = () => {
           )}
         </div>
 
-        {/* Aqui você pode adicionar outros cards com mesmo padrão */}
+        {/* Card das integrações (agora clicável na imagem) */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+          <h2 className="text-lg font-medium mb-4">Anúncios Vinculados no Invento</h2>
+
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin h-8 w-8 border-4 border-t-transparent border-red-500 rounded-full"></div>
+            </div>
+          ) : error ? (
+            <p className="text-red-500 text-center">Erro ao carregar dados</p>
+          ) : (
+            <div className="flex justify-center items-center h-64">
+              <img
+                src={inventoicon}
+                alt="Invento logo"
+                className="object-contain cursor-pointer"
+                onClick={() => navigate('/canal-vendas')}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Card teste */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+          <h2 className="text-lg font-medium mb-4">Em breve...</h2>
+          <p>Novos indicadores serão adicionados aqui.</p>
+        </div>
       </div>
     </div>
   )
