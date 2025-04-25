@@ -27,4 +27,7 @@ export interface Attribute {
     shipping?: Shipping;
     variations?: Variation[];
   }
+  interface ProdutoML {
+    id: string;
+  }
   
