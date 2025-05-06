@@ -3,6 +3,7 @@ import ProductPageActive from './pages/ProductPageActive'
 import ProductPagePaused from './pages/ProductPagePaused'
 import ProductPageClosed from './pages/ProductPageClosed'
 import CanalVendasPage from './pages/CanalVendasPage'
+import FaturamentoPage from './pages/FaturamentoPage'
 
 import Home from './pages/Home'
 
@@ -14,6 +15,7 @@ export default function App() {
       <Route path="/produtos-pausados" element={<ProductPagePaused />} />
       <Route path="/produtos-finalizados" element={<ProductPageClosed />} />
       <Route path="/canal-vendas" element={<CanalVendasPage />} />
+      <Route path="/faturamento" element={<FaturamentoPage />} />
     </Routes>
 )
 }
