@@ -152,6 +152,19 @@ const Home = () => {
   </button>
 </div>
 
+
+          {/* Dentro do return da página Home.tsx, onde estão os outros cards:*/}
+<div className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 flex flex-col justify-between">
+  <h2 className="text-lg font-medium mb-4 text-white">Faturamento Item</h2>
+  <p className="text-sm text-gray-400 mb-4">Acompanhe o volume financeiro mensal das notas fiscais emitidas.</p>
+  <button
+    onClick={() => navigate('/faturamentoitem')}
+    className="mt-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+  >
+    Acessar
+  </button>
+</div>
+
         {/* Card teste */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
           <h2 className="text-lg font-medium mb-4">Em breve...</h2>
