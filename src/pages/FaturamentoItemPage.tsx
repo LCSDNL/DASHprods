@@ -260,6 +260,18 @@ export default function FaturamentoItem() {
           </div>
         ) : (
           <>
+
+            {/* ← TOTAL GERAL → */}
+      <div className="flex justify-end mb-2 text-sm text-gray-400">
+        Total Geral: R${' '}
+        {totalSum.toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}
+      </div>
+
+
+
              {/* → GRÁFICO DE BARRAS HORIZONTAIS ← */}
              <div className="bg-gray-800 p-4 rounded-lg mb-8" style={{ height: 500 }}>
               <Bar data={data} options={options} />
